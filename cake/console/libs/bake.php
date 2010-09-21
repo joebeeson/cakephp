@@ -154,44 +154,46 @@ class BakeShell extends Shell {
 			$name = $this->args[0];
 		}
 
-		$modelExists = false;
-		$model = $this->_modelName($name);
-		if (App::import('Model', $model)) {
-			$object = new $model();
-			$modelExists = true;
-		} else {
-			App::import('Model', 'Model', false);
-			$object = new Model(array('name' => $name, 'ds' => $this->connection));
-		}
-
-		$modelBaked = $this->Model->bake($object, false);
-
-		if ($modelBaked && $modelExists === false) {
-			$this->out(sprintf(__('%s Model was baked.', true), $model));
-			if ($this->_checkUnitTest()) {
-				$this->Model->bakeFixture($model);
-				$this->Model->bakeTest($model);
+		$models = array_map(array($this, '_modelName'), explode(',', $name));
+		foreach ($models as $model) {
+			$name = $model;
+			$modelExists = false;
+			if (App::import('Model', $model)) {
+				$object = new $model();
+				$modelExists = true;
+			} else {
+				App::import('Model', 'Model', false);
+				$object = new Model(array('name' => $name, 'ds' => $this->connection));
 			}
-			$modelExists = true;
-		}
+			$modelBaked = $this->Model->bake($object, false);
 
-		if ($modelExists === true) {
-			$controller = $this->_controllerName($name);
-			if ($this->Controller->bake($controller, $this->Controller->bakeActions($controller))) {
-				$this->out(sprintf(__('%s Controller was baked.', true), $name));
+			if ($modelBaked && $modelExists === false) {
+				$this->out(sprintf(__('%s Model was baked.', true), $model));
 				if ($this->_checkUnitTest()) {
-					$this->Controller->bakeTest($controller);
+					$this->Model->bakeFixture($model);
+					$this->Model->bakeTest($model);
 				}
+				$modelExists = true;
 			}
-			if (App::import('Controller', $controller)) {
-				$this->View->args = array($controller);
-				$this->View->execute();
-				$this->out(sprintf(__('%s Views were baked.', true), $name));
+
+			if ($modelExists === true) {
+				$controller = $this->_controllerName($name);
+				if ($this->Controller->bake($controller, $this->Controller->bakeActions($controller))) {
+					$this->out(sprintf(__('%s Controller was baked.', true), $name));
+					if ($this->_checkUnitTest()) {
+						$this->Controller->bakeTest($controller);
+					}
+				}
+				if (App::import('Controller', $controller)) {
+					$this->View->args = array($controller);
+					$this->View->execute();
+					$this->out(sprintf(__('%s Views were baked.', true), $name));
+				}
+				$this->out(__('Bake All complete', true));
+				array_shift($this->args);
+			} else {
+				$this->err(__('Bake All could not continue without a valid model', true));
 			}
-			$this->out(__('Bake All complete', true));
-			array_shift($this->args);
-		} else {
-			$this->err(__('Bake All could not continue without a valid model', true));
 		}
 		$this->_stop();
 	}
