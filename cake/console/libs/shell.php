@@ -165,8 +165,28 @@ class Shell extends Object {
 				$dispatch->shiftArgs();
 			}
 		}
-
+		$this->_mergeVars();
 		$this->Dispatch =& $dispatch;
+	}
+
+/**
+ * Merges all variables from the AppShell into the current class
+ *
+ * @return void
+ * @access protected
+ */
+	function _mergeVars() {
+		if (is_subclass_of($this, 'AppShell')) {
+			$appVars = get_class_vars('AppShell');
+			foreach ($appVars as $name=>$value) {
+				if (isset($this->$name) and is_array($this->$name) and is_array($value)) {
+					$this->$name = array_unique(array_merge(
+						$this->$name,
+						$value
+					));
+				}
+			}
+		}
 	}
 
 /**
