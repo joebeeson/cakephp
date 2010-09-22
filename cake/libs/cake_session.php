@@ -769,9 +769,7 @@ class CakeSession extends Object {
  */
 	function __destroy($id) {
 		$model =& ClassRegistry::getObject('Session');
-		$return = $model->delete($id);
-
-		return $return;
+		return $model->delete($id);
 	}
 
 /**
@@ -788,7 +786,6 @@ class CakeSession extends Object {
 			$expires = time();
 		}
 
-		$return = $model->deleteAll(array($model->alias . ".expires <" => $expires), false, false);
-		return $return;
+		return $model->deleteAll(array($model->alias . ".expires <" => $expires), false, false);
 	}
 }
