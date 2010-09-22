@@ -82,7 +82,7 @@ class Dispatcher extends Object {
 	}
 
 /**
- * Dispatches and invokes given URL, handing over control to the involved controllers, and then renders the 
+ * Dispatches and invokes given URL, handing over control to the involved controllers, and then renders the
  * results (if autoRender is set).
  *
  * If no controller of given name can be found, invoke() shows error messages in
@@ -192,14 +192,18 @@ class Dispatcher extends Object {
 			if ($controller->scaffold !== false) {
 				App::import('Controller', 'Scaffold', false);
 				return new Scaffold($controller, $params);
+			} elseif (isset($methods['_missingaction'])) {
+				$params['pass'][] = $params['action'];
+				$params['action'] = '_missingaction';
+			} else {
+				return $this->cakeError('missingAction', array(array(
+					'className' => Inflector::camelize($params['controller']."Controller"),
+					'action' => $params['action'],
+					'webroot' => $this->webroot,
+					'url' => $this->here,
+					'base' => $this->base
+				)));
 			}
-			return $this->cakeError('missingAction', array(array(
-				'className' => Inflector::camelize($params['controller']."Controller"),
-				'action' => $params['action'],
-				'webroot' => $this->webroot,
-				'url' => $this->here,
-				'base' => $this->base
-			)));
 		}
 		$output = call_user_func_array(array(&$controller, $params['action']), $params['pass']);
 
@@ -560,7 +564,7 @@ class Dispatcher extends Object {
 		}
 		$filters = Configure::read('Asset.filter');
 		$isCss = (
-			strpos($url, 'ccss/') === 0 || 
+			strpos($url, 'ccss/') === 0 ||
 			preg_match('#^(theme/([^/]+)/ccss/)|(([^/]+)(?<!css)/ccss)/#i', $url)
 		);
 		$isJs = (
