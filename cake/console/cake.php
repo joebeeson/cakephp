@@ -310,7 +310,7 @@ class ShellDispatcher {
 			$this->help();
 			return true;
 		}
-		
+
 		list($plugin, $shell) = pluginSplit($arg);
 		$this->shell = $shell;
 		$this->shellName = Inflector::camelize($shell);
@@ -410,6 +410,10 @@ class ShellDispatcher {
 
 		if (!class_exists('Shell')) {
 			require CONSOLE_LIBS . 'shell.php';
+		}
+
+		if (!class_exists('AppShell')) {
+			App::import('Shell', 'AppShell');
 		}
 
 		if (!class_exists($this->shellClass)) {
