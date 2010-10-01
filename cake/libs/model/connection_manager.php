@@ -114,8 +114,7 @@ class ConnectionManager extends Object {
 		$_this->_dataSources[$name] =& new $class($_this->config->{$name});
 		$_this->_dataSources[$name]->configKeyName = $name;
 
-		$return =& $_this->_dataSources[$name];
-		return $return;
+		return $_this->_dataSources[$name];
 	}
 
 /**

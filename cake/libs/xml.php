@@ -450,10 +450,8 @@ class XmlNode extends Object {
 	function &first() {
 		if (isset($this->children[0])) {
 			return $this->children[0];
-		} else {
-			$return = null;
-			return $return;
 		}
+		return null;
 	}
 
 /**
@@ -465,10 +463,8 @@ class XmlNode extends Object {
 	function &last() {
 		if (count($this->children) > 0) {
 			return $this->children[count($this->children) - 1];
-		} else {
-			$return = null;
-			return $return;
 		}
+		return null;
 	}
 
 /**
@@ -1023,8 +1019,7 @@ class Xml extends XmlNode {
  * @access public
  */
 	function &next() {
-		$return = null;
-		return $return;
+		return null;
 	}
 
 /**
@@ -1034,8 +1029,7 @@ class Xml extends XmlNode {
  * @access public
  */
 	function &previous() {
-		$return = null;
-		return $return;
+		return null;
 	}
 
 /**
@@ -1045,8 +1039,7 @@ class Xml extends XmlNode {
  * @access public
  */
 	function &parent() {
-		$return = null;
-		return $return;
+		return null;
 	}
 
 /**
