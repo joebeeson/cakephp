@@ -319,6 +319,20 @@ class FormHelper extends AppHelper {
 
 		$this->setEntity($model . '.', true);
 		$attributes = $this->_parseAttributes($htmlAttributes, null, '');
+
+
+		if (Configure::read('App.encoding') == 'UTF-8') {
+			$append .= $this->input(
+				'_utf8',
+				array(
+					'type' 	=> 'hidden',
+					'name' 	=> '_utf8',
+					'id'	=> String::uuid(),
+					'value'	=> '☃'
+				)
+			);
+		}
+
 		return sprintf($this->Html->tags['form'], $attributes) . $append;
 	}
 
@@ -589,7 +603,7 @@ class FormHelper extends AppHelper {
  *
  * In addition to fields control, inputs() allows you to use a few additional options.
  *
- * - `fieldset` Set to false to disable the fieldset. If a string is supplied it will be used as 
+ * - `fieldset` Set to false to disable the fieldset. If a string is supplied it will be used as
  *    the classname for the fieldset element.
  * - `legend` Set to false to disable the legend for the generated input set. Or supply a string
  *    to customize the legend text.
@@ -1778,7 +1792,7 @@ class FormHelper extends AppHelper {
  * - `separator` The contents of the string between select elements. Defaults to '-'
  * - `empty` - If true, the empty select option is shown.  If a string,
  *   that string is displayed as the empty element.
- * - `value` | `default` The default value to be used by the input.  A value in `$this->data` 
+ * - `value` | `default` The default value to be used by the input.  A value in `$this->data`
  *   matching the field name will override this value.  If no default is provided `time()` will be used.
  *
  * @param string $fieldName Prefix name for the SELECT element
