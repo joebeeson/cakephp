@@ -648,12 +648,23 @@ class DboSource extends DataSource {
 	function logQuery($sql) {
 		$this->_queriesCnt++;
 		$this->_queriesTime += $this->took;
+
+		$trace = array();
+		$backtraces = debug_backtrace();
+		foreach ($backtraces as $backtrace) {
+			$string = $backtrace['function'];
+			if (isset($backtrace['class'])) {
+				$string = $backtrace['class'] . '::' . $string;
+			}
+			$trace[] = $string;
+		}
 		$this->_queriesLog[] = array(
 			'query' => $sql,
 			'error'		=> $this->error,
 			'affected'	=> $this->affected,
 			'numRows'	=> $this->numRows,
-			'took'		=> $this->took
+			'took'		=> $this->took,
+			'trace'		=> $trace
 		);
 		if (count($this->_queriesLog) > $this->_queriesLogMax) {
 			array_pop($this->_queriesLog);
