@@ -299,6 +299,17 @@ class FormHelper extends AppHelper {
 		}
 
 		if (!empty($options['encoding'])) {
+			if (strtolower($options['encoding']) == 'utf-8') {
+				$append .= $this->input(
+					'_utf8',
+					array(
+						'type' 	=> 'hidden',
+						'name' 	=> '_utf8',
+						'value'	=> '&#9731;',
+						'escape'=> false
+					)
+				);
+			}
 			$htmlAttributes['accept-charset'] = $options['encoding'];
 			unset($options['encoding']);
 		}
@@ -1119,7 +1130,7 @@ class FormHelper extends AppHelper {
 	}
 
 /**
- * Missing method handler - implements various simple input types. Is used to create inputs 
+ * Missing method handler - implements various simple input types. Is used to create inputs
  * of various types.  e.g. `$this->Form->text();` will create `<input type="text" />` while
  * `$this->Form->range();` will create `<input type="range" />`
  *
@@ -1493,7 +1504,7 @@ class FormHelper extends AppHelper {
 		$style = null;
 		$tag = null;
 		$attributes += array(
-			'class' => null, 
+			'class' => null,
 			'escape' => true,
 			'secure' => null,
 			'empty' => '',
@@ -2044,7 +2055,7 @@ class FormHelper extends AppHelper {
 	function __selectOptions($elements = array(), $parents = array(), $showParents = null, $attributes = array()) {
 		$select = array();
 		$attributes = array_merge(
-			array('escape' => true, 'style' => null, 'value' => null, 'class' => null), 
+			array('escape' => true, 'style' => null, 'value' => null, 'class' => null),
 			$attributes
 		);
 		$selectedIsEmpty = ($attributes['value'] === '' || $attributes['value'] === null);
