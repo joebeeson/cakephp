@@ -22,7 +22,7 @@ class CakeErrorController extends AppController {
  * @access public
  * @return void
  */
-	function __construct() {
+	public function __construct() {
 		parent::__construct();
 		$this->_set(Router::getPaths());
 		$this->request = Router::getRequest(false);
@@ -36,10 +36,10 @@ class CakeErrorController extends AppController {
  *
  * @return void
  */
-	function beforeRender() {
+	public function beforeRender() {
 		parent::beforeRender();
 		foreach ($this->viewVars as $key => $value) {
-			if (!is_object($value)){ 
+			if (!is_object($value)){
 				$this->viewVars[$key] = h($value);
 			}
 		}

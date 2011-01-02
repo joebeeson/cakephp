@@ -164,7 +164,7 @@ class SecurityComponent extends Component {
 
 /**
  * The duration from when a CSRF token is created that it will expire on.
- * Each form/page request will generate a new token that can only be submitted once unless 
+ * Each form/page request will generate a new token that can only be submitted once unless
  * it expires.  Can be any value compatible with strtotime()
  *
  * @var string
@@ -419,7 +419,7 @@ class SecurityComponent extends Component {
  * @see SecurityComponent::parseDigestAuthData()
  * @link http://book.cakephp.org/view/1306/generateDigestResponseHash-array-data
  */
-	function generateDigestResponseHash($data) {
+	public function generateDigestResponseHash($data) {
 		return md5(
 			md5($data['username'] . ':' . $this->loginOptions['realm'] . ':' . $this->loginUsers[$data['username']]) .
 			':' . $data['nonce'] . ':' . $data['nc'] . ':' . $data['cnonce'] . ':' . $data['qop'] . ':' .
@@ -438,7 +438,7 @@ class SecurityComponent extends Component {
  * @see SecurityComponent::$blackHoleCallback
  * @link http://book.cakephp.org/view/1307/blackHole-object-controller-string-error
  */
-	function blackHole($controller, $error = '') {
+	public function blackHole($controller, $error = '') {
 		if ($this->blackHoleCallback == null) {
 			$code = 404;
 			if ($error == 'login') {
@@ -692,7 +692,7 @@ class SecurityComponent extends Component {
 			if (!empty($tokenData['csrfTokens'])) {
 				$token['csrfTokens'] = $this->_expireTokens($tokenData['csrfTokens']);
 			}
-		} 
+		}
 		if ($this->csrfCheck && ($this->csrfUseOnce || empty($tokenData['csrfTokens'])) ) {
 			$token['csrfTokens'][$authKey] = strtotime($this->csrfExpires);
 		}

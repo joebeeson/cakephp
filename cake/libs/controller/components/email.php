@@ -450,9 +450,9 @@ class EmailComponent extends Component {
  *
  * @param string $content Content to render
  * @return array Email ready to be sent
- * @access private
+ * @access protected
  */
-	function _render($content) {
+	protected function _render($content) {
 		$viewClass = $this->Controller->view;
 
 		if ($viewClass != 'View') {
@@ -535,9 +535,9 @@ class EmailComponent extends Component {
 /**
  * Create unique boundary identifier
  *
- * @access private
+ * @access protected
  */
-	function _createboundary() {
+	protected function _createboundary() {
 		$this->_boundary = md5(uniqid(time()));
 	}
 
@@ -547,7 +547,7 @@ class EmailComponent extends Component {
  * @access public
  * @param array Associative array containing headers to be set.
  */
-	function header($headers) {
+	public function header($headers) {
 		foreach ($headers as $header => $value) {
 			$this->_header[] = sprintf('%s: %s', trim($header), trim($value));
 		}
@@ -556,9 +556,9 @@ class EmailComponent extends Component {
  * Create emails headers including (but not limited to) from email address, reply to,
  * bcc and cc.
  *
- * @access private
+ * @access protected
  */
-	function _createHeader() {
+	protected function _createHeader() {
         $headers = array();
 
 		if ($this->delivery == 'smtp') {
@@ -637,9 +637,9 @@ class EmailComponent extends Component {
  * Format the message by seeing if it has attachments.
  *
  * @param string $message Message to format
- * @access private
+ * @access protected
  */
-	function _formatMessage($message) {
+	protected function _formatMessage($message) {
 		if (!empty($this->attachments)) {
 			$prefix = array('--' . $this->_boundary);
 			if ($this->sendAs === 'text') {
@@ -659,10 +659,10 @@ class EmailComponent extends Component {
 /**
  * Attach files by adding file contents inside boundaries.
  *
- * @access private
+ * @access protected
  * @TODO: modify to use the core File class?
  */
-	function _attachFiles() {
+	protected function _attachFiles() {
 		$files = array();
 		foreach ($this->attachments as $filename => $attachment) {
 			$file = $this->_findFiles($attachment);
@@ -695,9 +695,9 @@ class EmailComponent extends Component {
  *
  * @param string $attachment Attachment file name to find
  * @return string Path to located file
- * @access private
+ * @access protected
  */
-	function _findFiles($attachment) {
+	protected function _findFiles($attachment) {
 		if (file_exists($attachment)) {
 			return $attachment;
 		}
@@ -718,7 +718,7 @@ class EmailComponent extends Component {
  * @return array Wrapped message
  * @access protected
  */
-	function _wrap($message, $lineLength = null) {
+	protected function _wrap($message, $lineLength = null) {
 		$message = $this->_strip($message, true);
 		$message = str_replace(array("\r\n","\r"), "\n", $message);
 		$lines = explode("\n", $message);
@@ -748,9 +748,9 @@ class EmailComponent extends Component {
  *
  * @param string $subject String to encode
  * @return string Encoded string
- * @access private
+ * @access protected
  */
-	function _encode($subject) {
+	protected function _encode($subject) {
 		$subject = $this->_strip($subject);
 
 		$nl = "\r\n";
@@ -774,9 +774,9 @@ class EmailComponent extends Component {
  *
  * @param string $string String representing an email address
  * @return string Email address suitable for email headers or smtp pipe
- * @access private
+ * @access protected
  */
-	function _formatAddress($string, $smtp = false) {
+	protected function _formatAddress($string, $smtp = false) {
 		$hasAlias = preg_match('/((.*)\s)?<(.+)>/', $string, $matches);
 		if ($smtp && $hasAlias) {
 			return $this->_strip('<' .  $matches[3] . '>');
@@ -796,9 +796,9 @@ class EmailComponent extends Component {
  * @param string $value Value to strip
  * @param boolean $message Set to true to indicate main message content
  * @return string Stripped value
- * @access private
+ * @access protected
  */
-	function _strip($value, $message = false) {
+	protected function _strip($value, $message = false) {
 		$search  = '%0a|%0d|Content-(?:Type|Transfer-Encoding)\:';
 		$search .= '|charset\=|mime-version\:|multipart/mixed|(?:[^a-z]to|b?cc)\:.*';
 
@@ -816,9 +816,9 @@ class EmailComponent extends Component {
  * Wrapper for PHP mail function used for sending out emails
  *
  * @return bool Success
- * @access private
+ * @access protected
  */
-	function _mail() {
+	protected function _mail() {
 		if ($this->lineFeed === null) {
 			$lineFeed = PHP_EOL;
 		} else {
@@ -841,9 +841,9 @@ class EmailComponent extends Component {
  * Sends out email via SMTP
  *
  * @return bool Success
- * @access private
+ * @access protected
  */
-	function _smtp() {
+	protected function _smtp() {
 		App::import('Core', 'CakeSocket');
 
 		$defaults = array(
@@ -939,7 +939,7 @@ class EmailComponent extends Component {
  * @return bool Success
  * @access protected
  */
-	function _smtpSend($data, $checkCode = '250') {
+	protected function _smtpSend($data, $checkCode = '250') {
 		if (!is_null($data)) {
 			$this->_smtpConnection->write($data . "\r\n");
 		}
@@ -971,9 +971,9 @@ class EmailComponent extends Component {
  * Set as controller flash message a debug message showing current settings in component
  *
  * @return boolean Success
- * @access private
+ * @access protected
  */
-	function _debug() {
+	protected function _debug() {
 		$nl = "\n";
 		$header = implode($nl, $this->_header);
 		$message = implode($nl, $this->_message);

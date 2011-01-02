@@ -148,7 +148,7 @@ class XcacheEngine extends CacheEngine {
  * @param boolean Revert changes
  * @access private
  */
-	function __auth($reverse = false) {
+	private function __auth($reverse = false) {
 		static $backup = array();
 		$keys = array('PHP_AUTH_USER' => 'user', 'PHP_AUTH_PW' => 'password');
 		foreach ($keys as $key => $setting) {

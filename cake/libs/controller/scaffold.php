@@ -106,7 +106,7 @@ class Scaffold {
  * @param Controller $controller Controller to scaffold
  * @param CakeRequest $request Request parameters.
  */
-	function __construct(Controller $controller, CakeRequest $request) {
+	public function __construct(Controller $controller, CakeRequest $request) {
 		$this->controller = $controller;
 
 		$count = count($this->__passedVars);
@@ -319,8 +319,8 @@ class Scaffold {
 				return $this->_sendMessage($message);
 			} else {
 				$message = __(
-					'There was an error deleting the %1$s with id: %2$d', 
-					Inflector::humanize($this->modelClass), 
+					'There was an error deleting the %1$s with id: %2$d',
+					Inflector::humanize($this->modelClass),
 					$id
 				);
 				return $this->_sendMessage($message);
@@ -331,7 +331,7 @@ class Scaffold {
 	}
 
 /**
- * Sends a message to the user.  Either uses Sessions or flash messages depending 
+ * Sends a message to the user.  Either uses Sessions or flash messages depending
  * on the availability of a session
  *
  * @param string $message Message to display

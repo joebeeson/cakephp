@@ -322,7 +322,7 @@ class AuthComponent extends Component {
 			return false;
 		}
 		$request = $controller->request;
-		
+
 		$this->request->data = $controller->request->data = $this->hashPasswords($request->data);
 		$url = '';
 
@@ -452,7 +452,7 @@ class AuthComponent extends Component {
  * @return boolean
  * @access private
  */
-	function __setDefaults() {
+	private function __setDefaults() {
 		if (empty($this->userModel)) {
 			trigger_error(__("Could not find \$userModel. Please set AuthComponent::\$userModel in beforeFilter()."), E_USER_WARNING);
 			return false;
@@ -572,7 +572,7 @@ class AuthComponent extends Component {
  * @return array Associative array with: type, object
  * @access private
  */
-	function __authType($auth = null) {
+	private function __authType($auth = null) {
 		if ($auth == null) {
 			$auth = $this->authorize;
 		}
@@ -898,7 +898,7 @@ class AuthComponent extends Component {
 
 		if (is_array($data)) {
 			$model = $this->getModel();
-			
+
 			if(isset($data[$model->alias])) {
 				if (isset($data[$model->alias][$this->fields['username']]) && isset($data[$model->alias][$this->fields['password']])) {
 					$data[$model->alias][$this->fields['password']] = $this->password($data[$model->alias][$this->fields['password']]);

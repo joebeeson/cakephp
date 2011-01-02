@@ -236,8 +236,8 @@ interface AclInterface {
 }
 
 /**
- * DbAcl implements an ACL control system in the database.  ARO's and ACO's are 
- * structured into trees and a linking table is used to define permissions.  You 
+ * DbAcl implements an ACL control system in the database.  ARO's and ACO's are
+ * structured into trees and a linking table is used to define permissions.  You
  * can install the schema for DbAcl with the Schema Shell.
  *
  * `$aco` and `$aro` parameters can be slash delimited paths to tree nodes.
@@ -260,7 +260,7 @@ class DbAcl extends Object implements AclInterface {
  * Constructor
  *
  */
-	function __construct() {
+	public function __construct() {
 		parent::__construct();
 		if (!class_exists('AclNode')) {
 			require LIBS . 'model' . DS . 'db_acl.php';
@@ -518,7 +518,7 @@ class DbAcl extends Object implements AclInterface {
 }
 
 /**
- * IniAcl implements an access control system using an INI file.  An example 
+ * IniAcl implements an access control system using an INI file.  An example
  * of the ini file used can be found in /config/acl.ini.php.
  *
  * @package       cake.libs.model.iniacl
@@ -545,11 +545,11 @@ class IniAcl extends Object implements AclInterface {
 /**
  * Initialize method
  *
- * @param AclBase $component 
+ * @param AclBase $component
  * @return void
  */
 	public function initialize($component) {
-		
+
 	}
 
 /**
@@ -561,7 +561,7 @@ class IniAcl extends Object implements AclInterface {
  * @return boolean Success
  */
 	public function allow($aro, $aco, $action = "*") {
-		
+
 	}
 
 /**
@@ -573,7 +573,7 @@ class IniAcl extends Object implements AclInterface {
  * @return boolean Success
  */
 	public function deny($aro, $aco, $action = "*") {
-		
+
 	}
 
 /**
@@ -585,12 +585,12 @@ class IniAcl extends Object implements AclInterface {
  * @return boolean Success
  */
 	public function inherit($aro, $aco, $action = "*") {
-		
+
 	}
 
 /**
- * Main ACL check function. Checks to see if the ARO (access request object) has access to the 
- * ACO (access control object).Looks at the acl.ini.php file for permissions 
+ * Main ACL check function. Checks to see if the ARO (access request object) has access to the
+ * ACO (access control object).Looks at the acl.ini.php file for permissions
  * (see instructions in /config/acl.ini.php).
  *
  * @param string $aro ARO
@@ -603,7 +603,7 @@ class IniAcl extends Object implements AclInterface {
 			$this->config = $this->readConfigFile(CONFIGS . 'acl.ini.php');
 		}
 		$aclConfig = $this->config;
-		
+
 		if (is_array($aro)) {
 			$aro = Set::classicExtract($aro, $this->userPath);
 		}

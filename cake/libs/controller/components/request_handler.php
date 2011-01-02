@@ -93,7 +93,7 @@ class RequestHandlerComponent extends Component {
  * @param ComponentCollection $collection ComponentCollection object.
  * @param array $settings Array of settings.
  */
-	function __construct(ComponentCollection $collection, $settings = array()) {
+	public function __construct(ComponentCollection $collection, $settings = array()) {
 		$this->__acceptTypes = explode(',', env('HTTP_ACCEPT'));
 
 		foreach ($this->__acceptTypes as $i => $type) {
@@ -107,7 +107,7 @@ class RequestHandlerComponent extends Component {
 
 /**
  * Initializes the component, gets a reference to Controller::$parameters, and
- * checks to see if a file extension has been parsed by the Router.  Or if the 
+ * checks to see if a file extension has been parsed by the Router.  Or if the
  * HTTP_ACCEPT_TYPE is set to a single value that is a supported extension and mapped type.
  * If yes, RequestHandler::$ext is set to that value
  *
@@ -272,7 +272,7 @@ class RequestHandlerComponent extends Component {
  *
  * @return boolean True if user agent is a mobile web browser
  */
-	function isMobile() {
+	public function isMobile() {
 		return $this->request->is('mobile') || $this->accepts('wap');
 	}
 
@@ -428,7 +428,7 @@ class RequestHandlerComponent extends Component {
 		if (!$this->request->is('post') && !$this->request->is('put')) {
 			return null;
 		}
-	
+
 		list($contentType) = explode(';', env('CONTENT_TYPE'));
 		if ($type == null) {
 			return $this->mapType($contentType);
@@ -489,7 +489,7 @@ class RequestHandlerComponent extends Component {
 
 /**
  * Sets the layout and template paths for the content type defined by $type.
- * 
+ *
  * ### Usage:
  *
  * Render the response as an 'ajax' response.
